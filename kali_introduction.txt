@@ -1,0 +1,125 @@
+=================Intro to Kali-Linux======================================
+
+
+=>passwd (change user password)
+
+==========File System==========
+
+=>pwd (print current working directory)
+=>cd <file location> (change directory)
+=>cd ..(back to the parent directory)
+=>ls (to show the files and folders in the directory)
+=>mkdir <name of the directory or path> (creating a directory)
+=>rmdir <name of the directory or path> (deleting a directory)
+=>touch <file path> (creating a file)
+=>ls -la (long listing format,shows all the hidden files)
+
+
+(hidden file names start with .)
+
+
+=>echo "overwrite hello" > <file path to the .txt file> (if file exist then it overwrites the file content otherwise it will create the file and add content to it)
+=>echo "append hello" >> <file path to the .txt file> (if file exist then it appends the file content otherwise it will create the file and add content to it)
+=>cp <file location> <location where you want to copy> (coping the file)
+=>rm <file path> (deleting file)
+=>mv <file location> <location where you want to move> (moving the file)
+=>locate <file name> (find a file)
+=>chmod +x <file path> (providing executing permission)
+=>ls <file path> (to show the files and folders in the directory)
+
+
+
+=>man <cammand> (manual about the cammand)
+
+
+
+=>adduser <user name> (adding user)
+=>su <user> (switch user)
+cat /etc/passwd
+cat /etc/shadow
+=>sudo su or su - (switching to root user)
+=>sudo <cammand> (executing a command with root previlages)
+=>cat <file path> (to see the file content)
+=>nano <file path> (open a file in a nano editor)
+=>grep <pattarn> (find the pattarn)
+
+
+
+
+==========Networking==========
+
+=>ifconfig or ip a (ip address for ethernet)
+=>iwconfig (wireless ip address)
+=>ping <ip address> (check wheather we can communicate with provided ip machine) ping -c <count> <ip address>
+=>arp -a
+=>netstat -ano (shows all open ports)
+=>route (shows route table)
+
+
+
+=>history (cammand history)
+
+=><cammand 1> | <cammand 2> (cammand chaining)
+=><cammand 1> && <cammand 2> (executing one after the other)
+
+
+=>apt-get install <tool name>  or apt install <tool name> (installing tool)
+=>apt purge <tool name> (un-installing a tool)
+=>apt update && apt upgrade (updating the system)
+
+
+
+apt install git -y
+apt install ftp
+apt purge *impacket*
+git clone <impacket link> (check README.md)
+
+
+
+
+=>service <service name like apache2,ssh> start/stop/restart/reload (to start the service but when the system shutdowns these services stops and we need to start again)
+=>systemctl enable/disable/start/stop/reload/restart/status <service name> (when we use enable. service will run atomatically when we reboot the system)
+
+
+
+
+
+==========Building Script's==========
+
+ping -c 1 <ip address> > ip.txt
+cat ip.txt | grep "64 bytes" | cut -d(dlimeter) " "  -f 4 (4th field) | tr -d ":"
+
+
+=>ipsweep.sh
+
+
+
+#!bin/bash
+
+if [ "$1"=="" ]
+then
+	echo "you forgot to add ip address"
+	echo "Syntax: ./ipsweep 192.168.1"
+
+else	
+
+for ip in `seq 1 254` ; do
+
+     ping -c 1 $1.$ip | grep "64 bytes" | cut -d " " -f 4 | tr -d ":" &
+     
+done
+
+fi
+
+
+
+(./ipsweep.sh 192.168.1 =>192.162.1 is stored in variable '1' so on.)
+(if we use ';' script becomes single threaded if we use '&' script becomes multi threaded)
+
+
+
+(input from file)
+
+for ip in $(cat iplist.txt);do 
+	nmap -p 80 -T4 $ip &
+done
